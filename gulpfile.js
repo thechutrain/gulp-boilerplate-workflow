@@ -9,6 +9,14 @@ const inject = require('gulp-inject')
 const CSS_URL = 'development/static/css/**/*.css'
 const DIST_URL = 'dist/static/'
 
+// HTML task
+gulp.task('html', function () {
+	const distSources = gulp.src(['dist/static/styles.css', 'dist/static/bundle.js'], {read: false})
+	return gulp.src('./dist/*.html')
+		.pipe(inject(distSources, { ignorePath: '/dist', addRootSlash: false } ))
+		.pipe(gulp.dest('./dist'))
+})
+
 // Css tasks
 gulp.task('css', function(){
 	// console.log('Loading css tasks ...')
@@ -18,10 +26,6 @@ gulp.task('css', function(){
     .pipe(gulp.dest(DIST_URL))
 })
 
-gulp.task('index', function () {
-	const target = gulp.src('./dist/index.html')
-	
-})
 
 // gulp.task('default', function(){
 // 	// console.log('hey yo Im working in the default task')
