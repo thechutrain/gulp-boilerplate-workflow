@@ -48,6 +48,9 @@ gulp.task('dev-js', function(){
 
 gulp.task('dev', function(){
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
+	// also add anything else that isn't a js || css || html file to .development
+	return gulp.src(['!src/**/*.js', '!src/**/*.css', '!src/**/*.html', 'src/**/*'])
+		.pipe(gulp.dest(DEV_URL))
 })
 
 gulp.task('watch', ['dev'], function(){
