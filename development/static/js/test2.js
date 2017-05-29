@@ -1,0 +1,4 @@
+'use strict';
+
+console.log('hllo');
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YXRpYy9qcy90ZXN0Mi5qcyJdLCJuYW1lcyI6WyJjb25zb2xlIiwibG9nIl0sIm1hcHBpbmdzIjoiOztBQUFBQSxRQUFRQyxHQUFSLENBQVksTUFBWiIsImZpbGUiOiJzdGF0aWMvanMvdGVzdDIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zb2xlLmxvZygnaGxsbycpXG4iXX0=

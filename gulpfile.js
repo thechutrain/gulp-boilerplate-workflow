@@ -32,6 +32,39 @@ var sourcemaps = require('gulp-sourcemaps')
 // 		.pipe(gulp.dest('development/dist'))
 // })
 
+gulp.task('dev-html', function() {
+	return gulp.src('src/**/*.html')
+		.pipe(gulp.dest('development/'))
+})
+
+gulp.task('dev-css', function(){
+	return gulp.src('src/**/*.css')
+		.pipe(cleanCSS({compatibility: 'ie8'}))
+		.pipe(gulp.dest('development/'))
+})
+
+gulp.task('dev-js', function(){
+	return gulp.src('src/**/*.js')
+		.pipe(plumber(function(err) {
+			console.log('Error in development - JS files:' + err)
+			this.emit('end')
+		}))
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			presets: ['es2015']
+			// presets: ['babel-preset-es2015'].map(require.resolve)
+			// presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
+		}))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('development/'))
+})
+
+gulp.task('dev', function(){
+	console.log('Running dev')
+	runSequence(['dev-html', 'dev-css', 'dev-js'])
+})
+
+
 /* ========= BUILD process ==============
 */
 gulp.task('pre-build', function(){
