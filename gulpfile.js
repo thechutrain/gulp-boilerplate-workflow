@@ -11,14 +11,13 @@ const CSS_URL = 'development/static/css/**/*.css'
 const DIST_URL = 'dist/static/'
 
 // html
-gulp.task('build', function(){
-	return gulp.src('development/index.html')
+gulp.task('prod-build', function(){
+	return gulp.src('development/*.html')
 		.pipe(useref())
 		.pipe(gulpif('*.css', cleanCSS({compatibility: 'ie8'})))
 		.pipe(gulpif('*.js', uglify()))
+		// TODO - if its an image --> compress
 		.pipe(gulp.dest('dist/'))
-		// .pipe(gulpif('*.css', ))
-		// .pipe(gulp.dest(DIST_URL))
 })
 
 // Css tasks
