@@ -47,12 +47,10 @@ gulp.task('dev-js', function(){
 })
 
 gulp.task('dev', function(){
-	// console.log('Running dev')
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
 })
-//
-gulp.task('watch', ['dev'], function(){
-	console.log('WATCHING now ...')
+
+gulp.task('watch-dev', ['dev'], function(){
 	require('./server.js')
 	livereload.listen()
 	gulp.watch('src/**/*.css', ['dev-css'])
@@ -60,10 +58,6 @@ gulp.task('watch', ['dev'], function(){
 	gulp.watch('src/**/*.html', ['dev-html'])
 })
 
-// gulp.task('watch', function(){
-// 	runSequence(['dev-html', 'dev-css', 'dev-js'])
-// 	console.log('WATCHING now')
-// })
 
 /* ========= BUILD process ==============
 */
