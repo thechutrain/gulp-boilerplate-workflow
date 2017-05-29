@@ -7,31 +7,9 @@ var useref = require('gulp-useref')
 var gulpif = require('gulp-if')
 var babel = require('gulp-babel')
 var runSequence = require('run-sequence')
-var plumber = require('gulp-plumber')
+// var plumber = require('gulp-plumber')
 var sourcemaps = require('gulp-sourcemaps')
 var livereload = require('gulp-livereload')
-
-// ========= URL paths ==============
-// const DEV_URL = 'development/'
-
-/* ========= DEVELOPMENT process ==============
-*/
-// gulp.task('dev-js', function(){
-// 	return gulp.src('src/**/*.js')
-// 		.pipe(plumber(function(err) {
-// 			console.log('Error in src - JS files:' + err)
-// 			this.emit('end')
-// 		}))
-// 		.pipe(sourcemaps.init())
-// 		.pipe(babel({
-// 			presets: ['es2015']
-// 			// presets: ['es2015'].map(require.resolve)
-// 			// presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
-// 		}))
-// 		.pipe(uglify())
-// 		.pipe(sourcemaps.write())
-// 		.pipe(gulp.dest('development/dist'))
-// })
 
 gulp.task('dev-html', function() {
 	return gulp.src('src/**/*.html')
@@ -41,6 +19,7 @@ gulp.task('dev-html', function() {
 
 gulp.task('dev-css', function(){
 	return gulp.src('src/**/*.css')
+		// QUESTION = can't get errors from css file
 		// .pipe(plumber(function(err) {
 		// 	console.log('Error in development - CSS files:' + err)
 		// 	this.emit('end')
@@ -54,10 +33,10 @@ gulp.task('dev-css', function(){
 
 gulp.task('dev-js', function(){
 	return gulp.src('src/**/*.js')
-		.pipe(plumber(function(err) {
-			console.log('Error in development - JS files:' + err)
-			this.emit('end')
-		}))
+		// .pipe(plumber(function(err) {
+		// 	console.log('Error in development - JS files:' + err)
+		// 	this.emit('end')
+		// }))
 		.pipe(sourcemaps.init())
 		.pipe(babel({
 			presets: ['es2015']
@@ -68,7 +47,7 @@ gulp.task('dev-js', function(){
 })
 
 gulp.task('dev', function(){
-	console.log('Running dev')
+	// console.log('Running dev')
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
 })
 //
