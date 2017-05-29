@@ -7,7 +7,7 @@ var StaticServer = require('static-server')
 
 const PORT = 3000
 var server = new StaticServer({
-	rootPath: './development/',
+	rootPath: './.development/',
 	port: PORT
 })
 
