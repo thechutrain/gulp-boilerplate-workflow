@@ -1,1 +1,0 @@
-alert("hello there!!! Check out the console"),console.log("hllo");
