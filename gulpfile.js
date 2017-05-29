@@ -3,7 +3,7 @@ var gulp = require('gulp')
 var concat = require('gulp-concat')
 // var uglify = require('gulp-uglify')
 var cleanCSS = require('gulp-clean-css')
-// const inject = require('gulp-inject')
+const inject = require('gulp-inject')
 
 // PATHS
 const CSS_URL = 'development/static/css/**/*.css'
@@ -18,7 +18,11 @@ gulp.task('css', function(){
     .pipe(gulp.dest(DIST_URL))
 })
 
-
-gulp.task('default', function(){
-	// console.log('hey yo Im working in the default task')
+gulp.task('index', function () {
+	const target = gulp.src('./dist/index.html')
+	
 })
+
+// gulp.task('default', function(){
+// 	// console.log('hey yo Im working in the default task')
+// })
