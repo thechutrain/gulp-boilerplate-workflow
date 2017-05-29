@@ -1,6 +1,6 @@
 'use strict'
 var gulp = require('gulp')
-var concat = require('gulp-concat')
+// var concat = require('gulp-concat')
 var uglify = require('gulp-uglify')
 var cleanCSS = require('gulp-clean-css')
 var useref = require('gulp-useref')
@@ -9,6 +9,7 @@ var babel = require('gulp-babel')
 var runSequence = require('run-sequence')
 var plumber = require('gulp-plumber')
 var sourcemaps = require('gulp-sourcemaps')
+var livereload = require('gulp-livereload')
 
 // ========= URL paths ==============
 // const DEV_URL = 'development/'
@@ -35,12 +36,20 @@ var sourcemaps = require('gulp-sourcemaps')
 gulp.task('dev-html', function() {
 	return gulp.src('src/**/*.html')
 		.pipe(gulp.dest('development/'))
+		.pipe(livereload())
 })
 
 gulp.task('dev-css', function(){
 	return gulp.src('src/**/*.css')
+		// .pipe(plumber(function(err) {
+		// 	console.log('Error in development - CSS files:' + err)
+		// 	this.emit('end')
+		// }))
+		.pipe(sourcemaps.init())
 		.pipe(cleanCSS({compatibility: 'ie8'}))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('development/'))
+		.pipe(livereload())
 })
 
 gulp.task('dev-js', function(){
@@ -52,18 +61,30 @@ gulp.task('dev-js', function(){
 		.pipe(sourcemaps.init())
 		.pipe(babel({
 			presets: ['es2015']
-			// presets: ['babel-preset-es2015'].map(require.resolve)
-			// presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('development/'))
+		.pipe(livereload())
 })
 
 gulp.task('dev', function(){
 	console.log('Running dev')
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
 })
+//
+gulp.task('watch', ['dev'], function(){
+	console.log('WATCHING now ...')
+	require('./server.js')
+	livereload.listen()
+	gulp.watch('src/**/*.css', ['dev-css'])
+	gulp.watch('src/**/*.js', ['dev-js'])
+	gulp.watch('src/**/*.html', ['dev-html'])
+})
 
+// gulp.task('watch', function(){
+// 	runSequence(['dev-html', 'dev-css', 'dev-js'])
+// 	console.log('WATCHING now')
+// })
 
 /* ========= BUILD process ==============
 */

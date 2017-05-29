@@ -1,5 +1,5 @@
-alet('hello there!!! Check out the console')
-
+// alert('hello there!!! Check out the console foo')
+console.log('This is from test1.js file')
 class Person {
 	constructor(name, age) {
 		this.name = name
