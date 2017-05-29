@@ -1,52 +1,68 @@
 'use strict'
 var gulp = require('gulp')
-// var concat = require('gulp-concat')
+var concat = require('gulp-concat')
 var uglify = require('gulp-uglify')
 var cleanCSS = require('gulp-clean-css')
 var useref = require('gulp-useref')
 var gulpif = require('gulp-if')
 var babel = require('gulp-babel')
 var runSequence = require('run-sequence')
+var plumber = require('gulp-plumber')
+var sourcemaps = require('gulp-sourcemaps')
 
-// PATHS
-// const CSS_URL = 'development/static/css/**/*.css'
-// const DIST_URL = 'dist/'
+// ========= URL paths ==============
+// const DEV_URL = 'development/'
 
-// var gutil = require('gulp-util')
-
-// gulp.uglify().on('error', function(err) {
-// 	gutil.log(gutil.colors.red('[Error]'), err.toString())
-// 	this.emit('end')
+/* ========= DEVELOPMENT process ==============
+*/
+// gulp.task('dev-js', function(){
+// 	return gulp.src('src/**/*.js')
+// 		.pipe(plumber(function(err) {
+// 			console.log('Error in src - JS files:' + err)
+// 			this.emit('end')
+// 		}))
+// 		.pipe(sourcemaps.init())
+// 		.pipe(babel({
+// 			presets: ['es2015']
+// 			// presets: ['es2015'].map(require.resolve)
+// 			// presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
+// 		}))
+// 		.pipe(uglify())
+// 		.pipe(sourcemaps.write())
+// 		.pipe(gulp.dest('development/dist'))
 // })
 
+/* ========= BUILD process ==============
+*/
 gulp.task('pre-build', function(){
-	return gulp.src('development/*.html')
+	return gulp.src('src/*.html')
 		.pipe(useref())
-		.pipe(gulpif('*.html', gulp.dest('dist/')))
+		.pipe(gulpif('*.html', gulp.dest('build/')))
 		.pipe(gulpif('*.js', gulp.dest('.tmp/')))
 		.pipe(gulpif('*.css', gulp.dest('.tmp/')))
-		// .pipe(gulpif('*bundle.js', babel({ presets: ['es2015']}), uglify()))
-		// .pipe(gulpif('*.html', gulp.dest('dist/')))
-		// .pipe(gulpif('*.css', cleanCSS({compatibility: 'ie8'})))
-		// .pipe(gulpif('*.js', babel({ presets: ['es2015']}), uglify()))
-		// .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString())})
 		// TODO - if its an image --> compress
 })
 
 gulp.task('build-css', function(){
 	return gulp.src('.tmp/assets/*.css')
 		.pipe(cleanCSS({compatibility: 'ie8'}))
-		.pipe(gulp.dest('dist/assets/'))
+		.pipe(gulp.dest('build/assets/'))
 })
 
 gulp.task('build-js', function(){
 	return gulp.src('.tmp/assets/*.js')
+		// .pipe(plumber(function(err) {
+		// 	console.log('Error in development - JS files:' + err)
+		// 	this.emit('end')
+		// }))
+		// .pipe(sourcemaps.init())
 		.pipe(babel({
 			// presets: ['es2015'].map(require.resolve)
 			presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
 		}))
 		.pipe(uglify())
-		.pipe(gulp.dest('dist/assets/'))
+		// .pipe(sourcemaps.write())
+		.pipe(gulp.dest('build/assets/'))
 })
 
 gulp.task('build', function(){
@@ -54,17 +70,3 @@ gulp.task('build', function(){
 	runSequence('pre-build',
 		['build-css', 'build-js'])
 })
-
-// Css tasks
-// gulp.task('css', function(){
-// 	// console.log('Loading css tasks ...')
-// 	return gulp.src(['development/static/css/normalize_reset.css', CSS_URL])
-//     .pipe(concat('styles.css'))
-//     .pipe(cleanCSS({compatibility: 'ie8'}))
-//     .pipe(gulp.dest(DIST_URL))
-// })
-
-
-// gulp.task('default', function(){
-// 	// console.log('hey yo Im working in the default task')
-// })

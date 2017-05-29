@@ -1,4 +1,4 @@
-alert('hello there!!! Check out the console')
+alet('hello there!!! Check out the console')
 
 class Person {
 	constructor(name, age) {
