@@ -1,0 +1,18 @@
+@import "./reset/basic-reset";
+
+$grey: #f7f7f7;
+
+$red: red;
+
+body {
+	background: $grey;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 100vh;
+}
+
+p {
+	color: $red;
+}
