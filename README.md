@@ -17,6 +17,23 @@ In order to get up and running with this project, you will need to have `git`, `
 
 ### Installing
 
+There are two versions of this project: 1) uses CSS only and 2) that uses SASS.
+
+First clone this repo && checkout the remote version that you'd like to use
+
+```
+// For CSS version:
+$ git clone git@github.com:thechutrain/gulp-workflow.git
+$ git checkout git checkout origin/CSS
+$ rm -rf .git
+
+// For SASS verion:
+$ git clone git@github.com:thechutrain/gulp-workflow.git
+$ git checkout git checkout origin/SASS
+$ rm -rf .git
+```
+
+
 <!-- A step by step series of examples that tell you have to get a development env running
 
 Say what the step will be
