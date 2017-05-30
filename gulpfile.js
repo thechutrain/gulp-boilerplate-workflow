@@ -9,6 +9,7 @@ const runSequence = require('run-sequence')
 const sourcemaps = require('gulp-sourcemaps')
 const livereload = require('gulp-livereload')
 const del = require('del')
+const inject = require('gulp-inject-string')
 
 /* ========= PATH url ==============
 */
@@ -16,6 +17,7 @@ const DEV_URL = '.development/'
 
 gulp.task('dev-html', function() {
 	return gulp.src('src/**/*.html')
+		.pipe(inject.before('</body>', '<script src="http://localhost:35729/livereload.js"></script>'))
 		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
@@ -47,6 +49,10 @@ gulp.task('dev-js', function(){
 		.pipe(livereload())
 })
 
+// gulp.task('clean-dev', function() {
+// 	return del.sync(['.development'])
+// })
+// gulp.task('dev', ['clean-dev'], function(){
 gulp.task('dev', function(){
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
 	// also add anything else that isn't a js || css || html file to .development

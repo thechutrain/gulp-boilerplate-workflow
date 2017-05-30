@@ -17,6 +17,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-clean-css": "^3.4.0",
     "gulp-if": "^2.0.2",
+    "gulp-inject-string": "^1.1.0",
     "gulp-livereload": "^3.8.1",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
