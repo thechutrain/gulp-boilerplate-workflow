@@ -8,6 +8,7 @@ const babel = require('gulp-babel')
 const runSequence = require('run-sequence')
 const sourcemaps = require('gulp-sourcemaps')
 const livereload = require('gulp-livereload')
+const del = require('del')
 
 /* ========= PATH url ==============
 */
@@ -64,7 +65,10 @@ gulp.task('watch', ['dev'], function(){
 
 /* ========= production BUILD process ==============
 */
-gulp.task('pre-build', function(){
+gulp.task('clean-build', function(){
+	return del.sync(['build', '.tmp'])
+})
+gulp.task('pre-build', ['clean-build'], function(){
 	return gulp.src('src/*.html')
 		.pipe(useref())
 		.pipe(gulpif('*.html', gulp.dest('build/')))
