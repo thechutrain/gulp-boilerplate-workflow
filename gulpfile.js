@@ -10,6 +10,8 @@ const sourcemaps = require('gulp-sourcemaps')
 const livereload = require('gulp-livereload')
 const del = require('del')
 const inject = require('gulp-inject-string')
+const plumber = require('gulp-plumber')
+const autoprefixer = require('gulp-autoprefixer')
 
 /* ========= PATH url ==============
 */
@@ -18,8 +20,6 @@ const DEV_URL = '.development/'
 gulp.task('del', function(){
 	return del.sync(['build', '.tmp', '.development'])
 })
-
-
 
 /* ========= Development livereload process ==============
 */
@@ -32,25 +32,33 @@ gulp.task('dev-html', function() {
 
 gulp.task('dev-css', function(){
 	return gulp.src('src/**/*.css')
-		// QUESTION = can't get errors from css file
-		// .pipe(plumber(function(err) {
-		// 	console.log('Error in development - CSS files:' + err)
-		// 	this.emit('end')
-		// }))
+		.pipe(plumber(function(err) {
+			console.log('======= ERROR in dev-css ========')
+			console.log('Error in development - CSS files:' + err)
+			this.emit('end')
+		}))
 		.pipe(sourcemaps.init())
+		.pipe(autoprefixer())
 		.pipe(cleanCSS({compatibility: 'ie8'}))
 		.pipe(sourcemaps.write())
+		.pipe(plumber.stop())
 		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
 
 gulp.task('dev-js', function(){
 	return gulp.src('src/**/*.js')
+		.pipe(plumber(function(err){
+			console.log('===== ERROR in dev-js =======')
+			console.log(err)
+			this.emit('end')
+		}))
 		.pipe(sourcemaps.init())
 		.pipe(babel({
 			presets: ['es2015']
 		}))
 		.pipe(sourcemaps.write())
+		.pipe(plumber.stop())
 		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
