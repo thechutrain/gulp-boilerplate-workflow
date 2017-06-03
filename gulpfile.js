@@ -11,11 +11,17 @@ const livereload = require('gulp-livereload')
 const del = require('del')
 const inject = require('gulp-inject-string')
 const sass = require('gulp-sass')
+const plumber = require('gulp-plumber')
 
 /* ========= PATH url ==============
 */
 const DEV_URL = '.development/'
 const SCSS_ENTRY_URL = 'src/static/scss/styles.scss'
+
+// ===== developing mode =======
+gulp.task('del', function(){
+	return del.sync(['build', '.tmp', '.development'])
+})
 
 /* ========= Development livereload process ==============
 */
@@ -29,6 +35,11 @@ gulp.task('dev-html', function() {
 gulp.task('dev-sass', function(){
 	// return gulp.src(['src/**/*.sass', 'src/**/*.scss'])
 	return gulp.src(SCSS_ENTRY_URL)
+		// .pipe(plumber(function(err) {
+		// 	console.log('======== dev-sass ERROR =======')
+		// 	console.log(err)
+		// 	this.emit('end')
+		// }))
 		.pipe(sourcemaps.init())
 		.pipe(sass()).on('error', sass.logError)
 		.pipe(sourcemaps.write())
@@ -36,30 +47,23 @@ gulp.task('dev-sass', function(){
 		.pipe(livereload())
 })
 
-gulp.task('dev-css', function(){
-	return gulp.src('src/**/*.css')
-		.pipe(sourcemaps.init())
-		.pipe(cleanCSS({compatibility: 'ie8'}))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(DEV_URL))
-		.pipe(livereload())
-})
-
 gulp.task('dev-js', function(){
 	return gulp.src('src/**/*.js')
+		.pipe(plumber(function(err){
+			console.log('======== dev-js ERROR =======')
+			console.log(err)
+			this.emit('end')
+		}))
 		.pipe(sourcemaps.init())
 		.pipe(babel({
 			presets: ['es2015']
 		}))
 		.pipe(sourcemaps.write())
+		.pipe(plumber.stop())
 		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
 
-// gulp.task('clean-dev', function() {
-// 	return del.sync(['.development'])
-// })
-// gulp.task('dev', ['clean-dev'], function(){
 gulp.task('dev', function(){
 	runSequence(['dev-html', 'dev-sass', 'dev-js'])
 	// also add anything else that isn't a js || css || html file to .development
@@ -73,6 +77,7 @@ gulp.task('watch', ['dev'], function(){
 	gulp.watch('src/**/*.css', ['dev-css'])
 	gulp.watch('src/**/*.js', ['dev-js'])
 	gulp.watch('src/**/*.html', ['dev-html'])
+	gulp.watch('src/**/*.scss', ['dev-sass'])
 })
 
 

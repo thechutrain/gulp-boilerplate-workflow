@@ -1,11 +1,13 @@
 @import "./reset/basic-reset";
 
-$grey: #f7f7f7;
-
+// ======= COLORS ========
+$primary-color: blue;
+$secondary-color: pink;
+$ternary-color: yellow;
 $red: red;
 
 body {
-	background: $grey;
+	background: $secondary-color;
 	display: flex;
 	align-items: center;
 	justify-content: center;
