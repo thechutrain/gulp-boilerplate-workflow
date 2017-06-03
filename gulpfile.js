@@ -12,6 +12,8 @@ const del = require('del')
 const inject = require('gulp-inject-string')
 const sass = require('gulp-sass')
 const plumber = require('gulp-plumber')
+const rename = require('gulp-rename')
+const autoprefixer = require('gulp-autoprefixer')
 
 /* ========= PATH url ==============
 */
@@ -41,6 +43,7 @@ gulp.task('dev-sass', function(){
 		// 	this.emit('end')
 		// }))
 		.pipe(sourcemaps.init())
+		.pipe(autoprefixer())
 		.pipe(sass()).on('error', sass.logError)
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(DEV_URL + 'static/css'))
@@ -91,14 +94,15 @@ gulp.task('pre-build', ['clean-build'], function(){
 		.pipe(useref())
 		.pipe(gulpif('*.html', gulp.dest('build/')))
 		.pipe(gulpif('*.js', gulp.dest('.tmp/')))
-		.pipe(gulpif('*.css', gulp.dest('.tmp/')))
 		// TODO - if its an image --> compress
 })
 
-gulp.task('build-css', function(){
-	return gulp.src('.tmp/assets/*.css')
-		.pipe(cleanCSS({compatibility: 'ie8'}))
-		.pipe(gulp.dest('build/assets/'))
+gulp.task('build-scss', function(){
+	return gulp.src('src/**/styles.scss')
+		.pipe(autoprefixer())
+		.pipe(sass({ outputStyle: 'compressed'}).on('error', sass.logError))
+		.pipe(rename('styles.css'))
+		.pipe(gulp.dest('build/static/css'))
 })
 
 gulp.task('build-js', function(){
@@ -108,10 +112,10 @@ gulp.task('build-js', function(){
 			presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
 		}))
 		.pipe(uglify())
-		.pipe(gulp.dest('build/assets/'))
+		.pipe(gulp.dest('build/static/js'))
 })
 
 gulp.task('build', function(){
 	runSequence('pre-build',
-		['build-css', 'build-js'])
+		['build-scss','build-js'])
 })
