@@ -15,6 +15,14 @@ const inject = require('gulp-inject-string')
 */
 const DEV_URL = '.development/'
 
+gulp.task('del', function(){
+	return del.sync(['build', '.tmp', '.development'])
+})
+
+
+
+/* ========= Development livereload process ==============
+*/
 gulp.task('dev-html', function() {
 	return gulp.src('src/**/*.html')
 		.pipe(inject.before('</body>', '<script src="http://localhost:35729/livereload.js"></script>'))
@@ -22,8 +30,6 @@ gulp.task('dev-html', function() {
 		.pipe(livereload())
 })
 
-/* ========= Development livereload process ==============
-*/
 gulp.task('dev-css', function(){
 	return gulp.src('src/**/*.css')
 		// QUESTION = can't get errors from css file
@@ -49,10 +55,6 @@ gulp.task('dev-js', function(){
 		.pipe(livereload())
 })
 
-// gulp.task('clean-dev', function() {
-// 	return del.sync(['.development'])
-// })
-// gulp.task('dev', ['clean-dev'], function(){
 gulp.task('dev', function(){
 	runSequence(['dev-html', 'dev-css', 'dev-js'])
 	// also add anything else that isn't a js || css || html file to .development
