@@ -1,9 +1,27 @@
 # Gulp Boilerplate Workflow
-> a fun workflow for simple front-end web development projects
+> Fun front-end development with a GULP workflow
 
-Making it fun to development on the front-end!
+Making it fun to development on the front-end 😝 🎉
 
 Sass? ES6 syntax? Go for it!
+
+## Features
+* CSS - vendor prefixing, concatenating, and minifying
+* SCSS - pre-processing,
+* ES6 Javascript - transpiling, and bundling into browser-friendly JS
+* Easy live deployment to github pages, heroku etc.
+
+## Up & Running
+#### Development:
+Start local web server that reloads with every save you make.
+- `$ gulp watch`
+- edit the files in the `src/` directory
+
+#### Production:
+Build your production ready website in one command!
+- `$ gulp build`
+
+
 
 ## Getting Started
 
