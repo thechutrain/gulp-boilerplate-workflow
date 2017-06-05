@@ -83,7 +83,7 @@ $ git add build && git commit -m "init commit of subtree"
 $ git subtree push --prefix build origin gh-pages
 ```
 
-## Contributing
+<!-- ## Contributing -->
 
 <!-- Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. -->
 
@@ -91,6 +91,6 @@ $ git subtree push --prefix build origin gh-pages
 
 * **Alan Chu** - [github](https://github.com/thechutrain)
 
-## License
+<!-- ## License -->
 
 <!-- This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details -->
