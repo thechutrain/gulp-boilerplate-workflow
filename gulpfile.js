@@ -21,60 +21,80 @@ const DEV_URL = '.development/'
 const SCSS_ENTRY_URL = 'src/static/scss/styles.scss'
 
 // ===== developing mode =======
-gulp.task('del', function(){
+gulp.task('del', function() {
 	return del.sync(['build', '.tmp', '.development'])
 })
 
 /* ========= Development livereload process ==============
 */
 gulp.task('dev-html', function() {
-	return gulp.src('src/**/*.html')
-	.pipe(inject.before('</body>', '<script src="http://localhost:35729/livereload.js"></script>'))
-	.pipe(gulp.dest(DEV_URL))
-	.pipe(livereload())
-})
-
-gulp.task('dev-sass', function(){
-	// return gulp.src(['src/**/*.sass', 'src/**/*.scss'])
-	return gulp.src(SCSS_ENTRY_URL)
-		// .pipe(plumber(function(err) {
-		// 	console.log('======== dev-sass ERROR =======')
-		// 	console.log(err)
-		// 	this.emit('end')
-		// }))
-		.pipe(sourcemaps.init())
-		.pipe(autoprefixer())
-		.pipe(sass()).on('error', sass.logError)
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(DEV_URL + 'static/css'))
+	return gulp
+		.src('src/**/*.html')
+		.pipe(
+			inject.before(
+				'</body>',
+				'<script src="http://localhost:35729/livereload.js"></script>'
+			)
+		)
+		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
 
-gulp.task('dev-js', function(){
-	return gulp.src('src/**/*.js')
-		.pipe(plumber(function(err){
-			console.log('======== dev-js ERROR =======')
-			console.log(err)
-			this.emit('end')
-		}))
+gulp.task('dev-sass', function() {
+	// return gulp.src(['src/**/*.sass', 'src/**/*.scss'])
+	return (gulp
+			.src(SCSS_ENTRY_URL)
+			// .pipe(plumber(function(err) {
+			// 	console.log('======== dev-sass ERROR =======')
+			// 	console.log(err)
+			// 	this.emit('end')
+			// }))
+			.pipe(sourcemaps.init())
+			.pipe(autoprefixer())
+			.pipe(sass())
+			.on('error', sass.logError)
+			.pipe(sourcemaps.write())
+			.pipe(gulp.dest(DEV_URL + 'static/css'))
+			.pipe(livereload()) )
+})
+
+gulp.task('dev-js', function() {
+	return gulp
+		.src('src/**/*.js')
+		.pipe(
+			plumber(function(err) {
+				console.log('======== dev-js ERROR =======')
+				console.log(err)
+				this.emit('end')
+			})
+		)
 		.pipe(sourcemaps.init())
-		.pipe(babel({
-			presets: ['es2015']
-		}))
+		.pipe(babel({ presets: ['es2015'] }))
 		.pipe(sourcemaps.write())
 		.pipe(plumber.stop())
 		.pipe(gulp.dest(DEV_URL))
 		.pipe(livereload())
 })
 
-gulp.task('dev', function(){
+gulp.task('dev', function() {
 	runSequence(['dev-html', 'dev-sass', 'dev-js'])
 	// also add anything else that isn't a js || css || html file to .development
-	return gulp.src(['!src/**/*.js', '!src/**/*.css', '!src/**/*.scss', '!src/**/*.sass', '!src/**/*.html', 'src/**/*'], { nodir: true })
+	return gulp
+		.src(
+			[
+				'!src/**/*.js',
+				'!src/**/*.css',
+				'!src/**/*.scss',
+				'!src/**/*.sass',
+				'!src/**/*.html',
+				'src/**/*'
+			],
+			{ nodir: true }
+		)
 		.pipe(gulp.dest(DEV_URL))
 })
 
-gulp.task('watch', ['dev'], function(){
+gulp.task('watch', ['dev'], function() {
 	require('./server.js')
 	livereload.listen()
 	gulp.watch('src/**/*.css', ['dev-css'])
@@ -83,39 +103,46 @@ gulp.task('watch', ['dev'], function(){
 	gulp.watch('src/**/*.scss', ['dev-sass'])
 })
 
-
 /* ========= production BUILD process ==============
 */
-gulp.task('clean-build', function(){
+gulp.task('clean-build', function() {
 	return del.sync(['build', '.tmp'])
 })
-gulp.task('pre-build', ['clean-build'], function(){
-	return gulp.src('src/*.html')
+gulp.task('pre-build', ['clean-build'], function() {
+	return gulp
+		.src('src/*.html')
 		.pipe(useref())
 		.pipe(gulpif('*.html', gulp.dest('build/')))
 		.pipe(gulpif('*.js', gulp.dest('.tmp/')))
-		// TODO - if its an image --> compress
+	// TODO - if its an image --> compress
 })
 
-gulp.task('build-scss', function(){
-	return gulp.src('src/**/styles.scss')
+gulp.task('build-scss', function() {
+	return gulp
+		.src('src/**/styles.scss')
 		.pipe(autoprefixer())
-		.pipe(sass({ outputStyle: 'compressed'}).on('error', sass.logError))
+		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 		.pipe(rename('styles.css'))
 		.pipe(gulp.dest('build/static/css'))
 })
 
-gulp.task('build-js', function(){
-	return gulp.src('.tmp/assets/*.js')
-		.pipe(babel({
-			// presets: ['es2015'].map(require.resolve)
-			presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
-		}))
+gulp.task('build-js', function() {
+	return gulp
+		.src('.tmp/**/*.js')
+		.pipe(
+			babel({
+				presets: ['babel-preset-es2015'].map(require.resolve)
+				// presets: ['../../node_modules/babel-preset-es2015'] // path is coming from .tmp/assets/
+			})
+		)
 		.pipe(uglify())
-		.pipe(gulp.dest('build/static/js'))
+		.pipe(gulp.dest('build/'))
 })
 
-gulp.task('build', function(){
-	runSequence('pre-build',
-		['build-scss','build-js'])
+gulp.task('build-img', function() {
+	return gulp.src('src/static/img/*').pipe(gulp.dest('build/static/img'))
+})
+
+gulp.task('build', function() {
+	runSequence('pre-build', ['build-scss', 'build-js', 'build-img'])
 })
