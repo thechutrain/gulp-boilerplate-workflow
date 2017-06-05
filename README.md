@@ -23,15 +23,15 @@ Build your production ready website in one command!
 
 
 
-## Getting Started
+<!-- ## Getting Started -->
 
 <!-- These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. -->
 
-### Prerequisites
+<!-- ### Prerequisites -->
 
 <!-- What things you need to install the software and how to install them -->
 
-In order to get up and running with this project, you will need to have `git`, `node`, and `gulp-cli` (npm) installed. To make use of the livereloading, you will need the chrome plugin [livereload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
+In order to get up and running with this project, you will need to have `git`, `node`, and `gulp-cli` (npm) installed.
 
 ### Installing
 
@@ -42,12 +42,14 @@ First clone this repo && checkout the remote version that you'd like to use
 ```
 // For CSS version:
 $ git clone git@github.com:thechutrain/gulp-boilerplate-workflow.git
-$ git checkout git checkout origin/CSS
+$ npm install
+$ git checkout origin/CSS
 $ rm -rf .git
 
 // For SASS verion:
 $ git clone git@github.com:thechutrain/gulp-boilerplate-workflow.git
-$ git checkout git checkout origin/SASS
+$ git checkout origin/SASS
+$ npm install
 $ rm -rf .git
 ```
 
