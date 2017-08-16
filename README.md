@@ -51,6 +51,12 @@ $ git clone git@github.com:thechutrain/gulp-boilerplate-workflow.git
 $ git checkout origin/SASS
 $ npm install
 $ rm -rf .git
+
+// For SASS verion with Bootstrap 4:
+$ git clone git@github.com:thechutrain/gulp-boilerplate-workflow.git
+$ git checkout remotes/origin/SASS_BS3
+$ npm install
+$ rm -rf .git
 ```
 
 
