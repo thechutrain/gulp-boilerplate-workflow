@@ -1,13 +1,8 @@
 /* IMPORT reset file, variables and mixins
 * either use the normalize or reset scss file
 */
-@import "./partials/normalize";
-/*@import "./partials/meyerReset";*/
-@import "./partials/reset";
-@import "./partials/variables";
-@import "./partials/mixins";
 
-/* IMPORT component styles
-* the default is
+/*  ====== OR =========
+* - use bootstrap!
 */
-@import "./components/default";
+@import "./bootstrap-4/bootstrap";
