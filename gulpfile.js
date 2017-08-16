@@ -42,20 +42,22 @@ gulp.task('dev-html', function() {
 
 gulp.task('dev-sass', function() {
 	// return gulp.src(['src/**/*.sass', 'src/**/*.scss'])
-	return (gulp
-			.src(SCSS_ENTRY_URL)
-			// .pipe(plumber(function(err) {
-			// 	console.log('======== dev-sass ERROR =======')
-			// 	console.log(err)
-			// 	this.emit('end')
-			// }))
-			.pipe(sourcemaps.init())
-			.pipe(autoprefixer())
-			.pipe(sass())
-			.on('error', sass.logError)
-			.pipe(sourcemaps.write())
-			.pipe(gulp.dest(DEV_URL + 'static/css'))
-			.pipe(livereload()) )
+	return gulp
+		.src(SCSS_ENTRY_URL)
+		.pipe(
+			plumber(function(err) {
+				console.log('======== dev-sass ERROR =======')
+				console.log(err)
+				this.emit('end')
+			})
+		)
+		.pipe(sourcemaps.init())
+		.pipe(autoprefixer())
+		.pipe(sass())
+		.on('error', sass.logError)
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(DEV_URL + 'static/css'))
+		.pipe(livereload())
 })
 
 gulp.task('dev-js', function() {
@@ -76,7 +78,7 @@ gulp.task('dev-js', function() {
 		.pipe(livereload())
 })
 
-gulp.task('dev', function() {
+gulp.task('watch', function() {
 	runSequence(['dev-html', 'dev-sass', 'dev-js'])
 	// also add anything else that isn't a js || css || html file to .development
 	return gulp
@@ -94,7 +96,7 @@ gulp.task('dev', function() {
 		.pipe(gulp.dest(DEV_URL))
 })
 
-gulp.task('watch', ['dev'], function() {
+gulp.task('dev', ['watch'], function() {
 	require('./server.js')
 	livereload.listen()
 	gulp.watch('src/**/*.css', ['dev-css'])

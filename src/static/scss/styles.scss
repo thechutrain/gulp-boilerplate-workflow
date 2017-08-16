@@ -1,20 +1,13 @@
-@import "./reset/basic-reset";
+/* IMPORT reset file, variables and mixins
+* either use the normalize or reset scss file
+*/
+@import "./partials/normalize";
+/*@import "./partials/meyerReset";*/
+@import "./partials/reset";
+@import "./partials/variables";
+@import "./partials/mixins";
 
-// ======= COLORS ========
-$primary-color: blue;
-$secondary-color: grey;
-$ternary-color: yellow;
-$red: red;
-
-body {
-	background: $secondary-color;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	height: 100vh;
-}
-
-p {
-	color: $red;
-}
+/* IMPORT component styles
+* the default is
+*/
+@import "./components/default";
